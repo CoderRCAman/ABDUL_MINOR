@@ -8,7 +8,9 @@ async function landing(req, res) {
   const studentCount_standard = [] ;
   for(let i=0;i<allStandards.length ;++i) { 
     const standard = allStandards[i].standard
-    const countStudent = await Student.countDocuments({s_standard:standard}) ; 
+    const countStudent = await Student.countDocuments({
+u_id:loggedInDetails.user_id
+,s_standard:standard}) ; 
      studentCount_standard.push({
        standard : standard  ,
        count : countStudent

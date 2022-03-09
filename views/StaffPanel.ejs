@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('partials/head'); %>
+
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main
+      class="container d-flex align-items-center flex-column-reverse flex-md-row justify-content-evenly"
+      style="margin-top: 20px"
+    >
+      <div
+        class="card mt-5 mt-md-0"
+        style="width: 25rem; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px"
+      >
+        <div class="card-body">
+          <h5 class="card-title">Manage Staffs</h5>
+          <div class="list-group"  style="max-height:50vh ;overflow-y:scroll" id="staff_list">
+            <!-- Student List Goes here  -->
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- Global search  -->
+        <form id="search" class="search-bar-form">
+          <button type="submit">
+            <img
+              src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png"
+              style="
+                width: 26px;
+                height: 26px;
+                margin-left: 3px;
+                margin-right: 2px;
+              "
+            />
+          </button>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search staff"
+          />
+        </form>
+       
+      </div>
+    </main>
+    <script>
+      const staffList = JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(staff_list)); %>")
+      ); 
+      console.log(staffList);
+      function renderNoStaffs(){
+        $("#staff_list").empty();
+        $("#staff_list").append(
+          '<h5 style="color:red" > No Avaialable Student </h5>'
+        )
+      }
+      function renderStudents () { 
+        $("#staff_list").empty();
+        staffList.forEach((staff) => {
+        $("#staff_list").append(
+        `<div class="list-group-item list-group-item-action fw-bold d-flex justify-content-between">
+         <div> ${staff.staff_name}</div>
+               <div>
+                <a 
+                  href=/staff/delete/${staff._id}
+                  style="all:unset ;cursor: pointer; margin-right: 4px" 
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Delete"  
+                >
+                  <!-- delete icon  -->
+
+                  
+                    <img class="icon-fit" src="https://img.icons8.com/ios/50/000000/delete-trash.png"/>
+                </a>
+                <a 
+                  href=/staff/edit/${staff._id}
+                  style="all:unset ;cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Edit" 
+                >
+                  <!-- edit icon  -->
+                  <img
+                    class="icon-fit"
+                    src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-edit-interface-kiranshastry-lineal-kiranshastry.png"
+                  />
+                </a> 
+                <a 
+                  href=/staff/view/${staff._id}
+                  style="cursor: pointer;" 
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="View"  
+                >
+                  <!-- delete icon  -->
+
+                  <img class='icon-fit' src="https://img.icons8.com/ios/24/000000/view-file.png"/>
+                </a>    
+            </div>
+          `
+        );
+      });
+    }
+    renderStudents();
+     
+      $('#search').submit(async event=>{ 
+        event.preventDefault(); 
+        const searchField = event.target[1].value ;
+        if(!searchField) { 
+          alert("Please specify a roll number")
+          return ; 
+        } 
+        try {
+          const searchResult = await fetch(`/student?roll_no=${searchField}`,{
+            method : 'GET',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+             headers: {
+            "Content-Type": "application/json",
+          }
+        }) 
+         if(searchResult.status ===200) {
+          const resultObj = await searchResult.json();
+          if(resultObj) {
+            staffList = [] ;
+            staffList.push(resultObj) ; 
+            renderStudents();
+          }
+          else renderNoStudents();
+         }  
+        } catch (error) {
+          alert(error) ;
+        }
+      })
+    </script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

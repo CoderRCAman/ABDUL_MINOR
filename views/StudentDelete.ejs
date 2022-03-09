@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center ">
+        <div style="margin-top: 40px;">
+            <h4>Are you sure you want to delete: </h3> 
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                       <div>
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">Name:</span> <span class="badge bg-primary"><%= student.s_name %></span>
+                       </div>  
+                       <div class="mt-2">
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">Standard:</span> <span class="badge bg-secondary"><%= student.s_standard %></span>
+                       </div> 
+                       <div class="mt-2">
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">Roll:</span> <span class="badge bg-success"><%= student.s_roll %></span>
+                       </div> 
+                       <div class="mt-2">
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">Date of Birth:</span> <span class="badge bg-info"><%= student.date_of_birth %></span>
+                       </div>
+                       <div class="mt-2">
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">School:</span> <span class="badge bg-dark"><%= student.school_name %></span>
+                       </div> 
+                       <div class="mt-2">
+                        <span style="color:rgb(108, 105, 105); font-weight: bold;">Phone:</span> <span class="badge bg-dark"><%= student.s_phone %></span>
+                       </div>
+                    </div>
+                  </div>
+            <div class="d-flex justify-content-center mt-2">
+                <button onclick="deleteStudent()" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        async function deleteStudent(){
+            const id = JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(id)); %>")); 
+            try {
+                const deleteResponse = await fetch(`/student/delete/${id}`,{
+            method:'DELETE',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+            "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          })  
+          const responseObj = await deleteResponse.json();
+          console.log(responseObj)
+          if(deleteResponse.status===200) {
+            alert('Deleted Successfully')
+            window.location = '/admission/panel'
+            return ;
+          } 
+          alert(responseObj.msg);
+            } catch (error) {
+                alert(error);
+            }
+        }
+    </script>
+  </body>
+</html>

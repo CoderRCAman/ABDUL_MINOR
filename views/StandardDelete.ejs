@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center ">
+        <div style="margin-top: 40px;">
+            <h4>Are you sure you want to delete standard: <span class="badge bg-info text-dark"><%= standard %></span>  </h3>
+            <div class="d-flex justify-content-center">
+                <button onclick="deleteStandard()" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        async function deleteStandard(){
+            const id = JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(id)); %>")); 
+            try {
+                const deleteResponse = await fetch(`/standard/delete/${id}`,{
+            method:'DELETE',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+            "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          })  
+          const responseObj = await deleteResponse.json();
+          console.log(responseObj)
+          if(deleteResponse.status===200) {
+            alert('Deleted Successfully')
+            window.location = '/standard'
+            return ;
+          } 
+          alert(responseObj.msg);
+            } catch (error) {
+                alert(error);
+            }
+        }
+    </script>
+  </body>
+</html>

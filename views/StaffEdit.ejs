@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head'); %>
+  </head>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <p class="h2 text-center">
+      <span class="text-muted">EDIT </span>Staff Details
+    </p>
+    <main
+      class="container d-flex flex-row justify-content-center align-items-lg-center"
+    >
+      <div class="d-none d-lg-block">
+        <img src="/assets/staff.png" class="_staff_image" alt="Staff" />
+      </div>
+      <div class="card mr-3">
+        <div class="card-body">
+          <form id="staff">
+            <div>
+              <label for="exampleInputName" class="form-label text-muted fs-5"
+                >Staff Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputName"
+                value="<%= staff.staff_name %>"
+                aria-describedby="emailHelp"
+                required 
+                data-parsley-minlength="3"
+              />
+            </div>
+            <div>
+              <label for="exampleInputEmail1" class="form-label text-muted fs-5"
+                >Staff Email</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                value="<%= staff.staff_email %>"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                required
+                data-parsley-email
+              />
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+            <div>
+              <label for="exampleInputSchool" class="form-label text-muted fs-5"
+                >School Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                value="<%= staff.school_name %>"
+                id="exampleInputSchool"
+                aria-describedby="emailHelp"
+                required 
+                data-parsley-minlength="6"
+              />
+            </div>
+            <div>
+              <label for="exampleInputRole" class="form-label text-muted fs-5"
+                >Staff Role</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputRole"
+                value="<%= staff.staff_role %>"
+                aria-describedby="emailHelp"
+                required 
+              />
+            </div>
+            <div>
+              <label for="exampleInputDes" class="form-label text-muted fs-5"
+                >Staff Description</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputDes"
+                value="<%= staff.staff_description %>"
+                aria-describedby="emailHelp"
+                required 
+                data-parsley-minlength="10"
+              />
+            </div>
+            <div>
+              <label for="exampleInputPh" class="form-label text-muted fs-5"
+                >Staff Phone</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputPh"
+                value="<%= staff.staff_phone %>"
+                aria-describedby="emailHelp"
+                required 
+                data-parsley-minlength="10"
+                data-parsley-maxlength ='12'
+              />
+            </div>
+            <button type="submit" class="btn btn-outline-success mt-3">
+              UPDATE
+              <img
+                width="30px"
+                src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-right-arrow-arrows-dreamstale-lineal-dreamstale.png"
+              />
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="/js/parsley.min.js"></script>
+    <script> 
+      const staff = JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(staff)); %>"));
+      var allFieldsValaidated = false;
+      window.parsley.addValidator("email", {
+        requirementType: "string",
+        validateString: function (value) {
+          return String(value)
+            .toLowerCase()
+            .match(
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+            ? true
+            : false;
+        },
+        messages: {
+          en: "Email is in invalid format",
+        },
+      });
+      $("#staff")
+        .parsley()
+        .on("field:error", () => {allFieldsValaidated=false})
+        .on("field:success", () => {allFieldsValaidated=true});
+      $('#staff').submit(async(event)=>{ 
+        if(!allFieldsValaidated)return ;
+        event.preventDefault();
+        const bodyObj ={
+          staff_name : event.target[0].value ,
+          staff_email:event.target[1].value ,
+          school_name : event.target[2].value ,
+          staff_role : event.target[3].value ,
+          staff_description : event.target[4].value,
+          staff_phone : event.target[5].value
+        }
+       try {
+        const staffResponse = await fetch(`/staff/edit/${staff._id}`,{
+          method: "PUT", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify(bodyObj),
+        })
+        const status = staffResponse.status; 
+        const responseMsg = await staffResponse.json();
+        if(status===200) {
+          alert(responseMsg.msg) ; 
+          window.location = '/staff/panel'
+          //❗ to do redirect to staff dashboards
+          return ; 
+        }
+        alert(responseMsg.msg) ;
+       } catch (error) {
+           alert(error) ;
+       }
+      })
+    </script>
+  </body>
+</html>

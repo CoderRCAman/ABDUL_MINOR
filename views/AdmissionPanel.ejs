@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('partials/head'); %>
+
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main
+      class="container d-flex align-items-center flex-column-reverse flex-md-row justify-content-evenly"
+      style="margin-top: 20px"
+    >
+      <div
+        class="card mt-5 mt-md-0"
+        style="width: 25rem; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px"
+      >
+        <div class="card-body">
+          <h5 class="card-title">Manage Students</h5>
+          <div class="list-group"  style="max-height:50vh ;overflow-y:scroll" id="student_list">
+            <!-- Student List Goes here  -->
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- Global search  -->
+        <form id="search" class="search-bar-form">
+          <button type="submit">
+            <img
+              src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png"
+              style="
+                width: 26px;
+                height: 26px;
+                margin-left: 3px;
+                margin-right: 2px;
+              "
+            />
+          </button>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search roll number"
+          />
+        </form>
+        <form   class="select-panel-admission">
+          <select
+            class="form-select"
+            style="border-width: 2px"
+            id="selected-standard"
+            aria-label="Default select example"
+          >
+            <option selected>New Admitted</option>
+            <% standards.map(standard => { %>
+              <option><%= standard.standard %></option>
+            <% }) %>
+          </select>
+        </form>
+      </div>
+    </main>
+    <script>
+      // const result = "<%-JSON.stringify(student_list)%>" ;
+      const studentsListObject = JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(student_list)); %>")
+      );
+      let prev = studentsListObject.prev; //prev.page,prev.limit
+      let next = studentsListObject.next; //next.page,next.limit
+      let students = studentsListObject.results; 
+      function renderNoStudents(){
+        $("#student_list").empty();
+        $("#student_list").append(
+          '<h5 style="color:red" > No Avaialable Student </h5>'
+        )
+      }
+      function renderStudents () { 
+        $("#student_list").empty();
+        students.forEach((student) => {
+        $("#student_list").append(
+        `<div class="list-group-item list-group-item-action fw-bold d-flex justify-content-between">
+         <div> ${student.s_name}</div>
+               <div>
+                <a 
+                  href=/student/delete/${student._id}
+                  style="all:unset ;cursor: pointer; margin-right: 4px" 
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Delete"  
+                >
+                  <!-- delete icon  -->
+
+                  
+                    <img class="icon-fit" src="https://img.icons8.com/ios/50/000000/delete-trash.png"/>
+                </a>
+                <a 
+                  href=/student/edit/${student._id}
+                  style="all:unset ;cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Edit" 
+                >
+                  <!-- edit icon  -->
+                  <img
+                    class="icon-fit"
+                    src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-edit-interface-kiranshastry-lineal-kiranshastry.png"
+                  />
+                </a> 
+                <a 
+                  href=/student/view/${student._id}
+                  style="cursor: pointer;" 
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="View"  
+                >
+                  <!-- delete icon  -->
+
+                  <img class='icon-fit' src="https://img.icons8.com/ios/24/000000/view-file.png"/>
+                </a>    
+            </div>
+          `
+        );
+      });
+    }
+    renderStudents();
+      $("#selected-standard").change(async event => {
+        const selectedStandard = event.target.value ;
+        try {
+          const fetchStudent_Response = await fetch(`/student/standard?page=1&limit=10&standard=${selectedStandard}`,{
+            method : 'GET',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+             headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          })  
+          if(fetchStudent_Response.status===200) { 
+            const responseObj = await fetchStudent_Response.json(); 
+            students = responseObj.results 
+            if(students.length>0) renderStudents ()
+            else renderNoStudents()
+          }
+        } catch (error) {
+          
+        }
+      })  
+      $('#search').submit(async event=>{ 
+        event.preventDefault(); 
+        const searchField = event.target[1].value ;
+        if(!searchField) { 
+          alert("Please specify a roll number")
+          return ; 
+        } 
+        try {
+          const searchResult = await fetch(`/student?roll_no=${searchField}`,{
+            method : 'GET',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+             headers: {
+            "Content-Type": "application/json",
+          }
+        }) 
+         if(searchResult.status ===200) {
+          const resultObj = await searchResult.json();
+          if(resultObj) {
+            students = [] ;
+            students.push(resultObj) ; 
+            renderStudents();
+          }
+          else renderNoStudents();
+         }  
+        } catch (error) {
+          alert(error) ;
+        }
+      })
+    </script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

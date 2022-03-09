@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center align-items-center ">
+        <div style="margin-top: 40px;" class="d-flex justify-content-center flex-column align-items-center">
+           <h4> STAFF DETAILS </h4>  
+           <div class="card single_cards" >
+            <div class="card-body">
+               <div class="ml-5">
+                <div>
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">Name:</span> <span class="badge bg-dark"><%= staff.staff_name %></span>
+                   </div>  
+                   <div class="mt-2">
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">Email:</span> <span class="badge bg-dark"><%= staff.staff_email %></span>
+                   </div> 
+                   <div class="mt-2">
+                   </div> 
+                   <div class="mt-2">
+                   </div>
+                   <div class="mt-2">
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">School:</span> <span class="badge bg-dark"><%= staff.school_name %></span>
+                   </div> 
+                   <div class="mt-2">
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">Role:</span> <span class="badge bg-dark"><%= staff.staff_role %></span>
+                   </div>
+                   <div class="mt-2">
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">Description:</span> <span class="badge bg-dark"><%= staff.staff_description %></span>
+                   </div>
+                   <div class="mt-2">
+                    <span style="color:rgb(108, 105, 105); font-weight: bold;">Phone:</span> <span class="badge bg-primary"><%= staff.staff_phone %></span>
+                   </div>
+               </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script>
+       
+    </script>
+  </body>
+</html>

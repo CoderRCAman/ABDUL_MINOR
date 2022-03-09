@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center ">
+        <div style="margin-top: 40px;">
+           <h4 class="text-center"> UPDATE SELECTED STUDENT </h4>  
+           <form id="edit" class="d-flex flex-column">
+            <div class="d-flex flex-column  justify-content-sm-evenly flex-sm-row">
+                <div class="card mr-3 mb-2" style="width: 20rem;">
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="exampleInputName" class="form-label text-muted fw-bold ">Student
+                                    Name</label>
+                                <input type="text" value="<%= student.s_name %>" class="form-control" id="exampleInputName"
+                                    aria-describedby="emailHelp" required data-parsley-trigger="keyup"
+                                    data-parsley-minlength="6" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputRoll" class="form-label text-muted fw-bold ">Student
+                                    Roll
+                                    Number</label>
+                                <input type="text" value="<%= student.s_roll %>" class="form-control" id="exampleInputRoll"
+                                    aria-describedby="emailHelp" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputSchool" class="form-label text-muted fw-bold ">School
+                                    Name</label>
+                                <input type="text"  value="<%= student.school_name %>" class="form-control" id="exampleInputSchool"
+                                    aria-describedby="emailHelp" required data-parsley-minlength="6" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputDOB" class="form-label text-muted fw-bold ">Date of
+                                    Birth</label>
+                                <input required type="text"  value="<%= student.date_of_birth %>" id="datepicker" class="form-control"
+                                    placeholder="dd-mm-yyyy" />
+                            </div>
+
+                    </div>
+                </div>
+                <div class="card ml-3   " style="height: 20em; width: 15em;">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="exampleInputPhone" class="form-label text-muted fw-bold">Student
+                                Phone</label>
+                            <input type="tel"  value="<%= student.s_phone %>" class="form-control" id="exampleInputPhone"
+                                aria-describedby="emailHelp" required maxlength="12" minlength="10" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputAddress" class="form-label text-muted fw-bold ">Student
+                                Address</label>
+                            <textarea type="tel" class="form-control" id="exampleInputAddress"
+                                aria-describedby="emailHelp" required minlength="10"> <%= student.s_address %></textarea>
+                        </div>
+                        <select id="select-standard" required data-parsley-select class="form-select" aria-label="Default select example">
+                            <option selected>STANDARD</option>
+                            <% standards.map(standard => { %>
+                                <option><%= standard.standard %></option>
+                            <% }) %>
+
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start justify-content-md-center " ">
+            <button type=" submit" class="btn btn-primary" style="width: 10em;margin-top: 0.5em;">
+                UPDATE</button>
+            </div>
+           </form>
+        </div>
+    </main>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+    integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script src="/js/parsley.min.js"></script>
+    <script>  
+        const student = JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(student)); %>"));  
+        $('#select-standard')[0].value = student.s_standard
+        var allFieldValidated = false;
+            window.parsley.addValidator('select',{
+                    requirementType: "string",
+                    validateString: (value)=> value!=="STANDARD" ,
+                    messages:{
+                        en : "Please select a standard"
+                    }
+                })
+
+            $(document).ready(() => {
+                    $("#datepicker").datepicker({
+                        format: "dd-mm-yyyy",
+                        autoclose: true,
+                        endDate: new Date(),
+                    });
+                });
+                $("#datepicker").change((event) => {
+                    const pickedDate = event.target.value;
+                    const dateSplited = pickedDate.split('-');
+                    const selectedYear = dateSplited[2];
+                    const today = new Date();
+                    const five_year_before = today.getFullYear() - 5;
+                    if (selectedYear > five_year_before) {
+                        alert('Child has to be atleast five years old');
+                        event.target.value = '';
+                    }
+                })
+                $("#edit").parsley()
+                    .on("field:error", () => {
+                        allFieldValidated = false;
+                    })
+                    .on("field:success", () => (allFieldValidated = true))
+       
+        $('#edit').submit(async (event) => {
+                    event.preventDefault();
+                    if (!allFieldValidated) return;
+                    console.log(event);
+                    const bodyObj = {
+                        s_name: event.target[0].value,
+                        s_roll: event.target[1].value,
+                        school_name: event.target[2].value,
+                        date_of_birth: event.target[3].value,
+                        s_phone: event.target[4].value,
+                        s_address: event.target[5].value,
+                        s_standard: event.target[6].value
+                    }
+                   
+                    const editResponse = await fetch(`/student/edit/${student._id}`, {
+                        method: "PUT", // *GET, POST, PUT, DELETE, etc.
+                        mode: "cors", // no-cors, *cors, same-origin
+                        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: "same-origin", // include, *same-origin, omit
+                        headers: {
+                            "Content-Type": "application/json",
+                            // 'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        
+                        body: JSON.stringify(bodyObj),
+                    });
+                    //handle error or take to the dashboard 
+                    const editStatus = editResponse.status ;
+                    const editMessage = await editResponse.json();
+                    if(editStatus ==200) {
+                        //succcess
+                        alert("Updated Ok!") ;
+                        window.location = '/admission/panel'
+                        return ; 
+                    }
+                    alert(editMessage.msg) ;
+                    
+                })
+    </script>
+  </body>
+</html>

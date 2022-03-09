@@ -1,0 +1,76 @@
+<nav
+  class="navbar navbar-light navbar-expand-lg"
+  style="background-color: rgba(207, 216, 220, .6)"
+>
+  <!-- Navbar content -->
+  <div class="container-fluid" id="home_logo ">
+   <a class="nav-link" href="/"> <span class="navbar-brand mb-0 h1" style="color: rgb(15, 13, 13);">School Management</span></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+    <ul class="navbar-nav  mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/staff">
+          <button type="button" class="btn btn-outline-primary">Staff</button>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/admission">
+          <button type="button" class="btn btn-outline-primary">
+            Admission
+          </button>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/standard">
+          <button type="button" class="btn btn-outline-primary">
+            Standard
+          </button>
+        </a>
+      </li> 
+      <% if(loggedIn==false||loggedIn==undefined) {%>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/login">
+          <button type="button" class="btn btn-outline-success">
+            Login
+          </button>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/register">
+          <button type="button" class="btn btn-outline-success">
+            Register
+          </button>
+        </a>
+      </li> 
+      <% } %>
+      <% if(loggedIn) { %>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/logout">
+            <button type="button" class="btn btn-outline-danger">
+              Logout
+            </button>
+          </a>
+        </li> 
+      <% }%>
+      <!-- <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">
+          <button type="button" class="btn btn-outline-danger">
+            Sign Out
+          </button>
+        </a>
+      </li> -->
+    </ul>
+  </div>
+</nav>

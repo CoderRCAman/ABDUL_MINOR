@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head',); %>
+  </head>
+
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+
+    <main
+      class="container register_container d-flex flex-row-reverse justify-content-center align-items-lg-center"
+    >
+      <div class="card register_card mr-3">
+        <div class="card-body">
+          <% if(error) {%>
+          <div style="color: rgb(235, 128, 128)">
+            Something went wrong during validation
+          </div>
+          <% } %>
+          <form method="POST" id="register">
+            <div>
+              <label for="exampleInputEmail1" class="form-label text-muted"
+                >Email address</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputEmail1"
+                name="email"
+                data-parsley-trigger="keyup"
+                data-parsley-email=""
+                required
+                aria-describedby="emailHelp"
+              />
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+            <div>
+              <label for="exampleInputSchool" class="form-label text-muted"
+                >School Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputSchool"
+                name="school"
+                required
+                data-parsley-trigger="keyup"
+                data-parsley-minlength="5"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div>
+              <label for="exampleInputAN" class="form-label text-muted"
+                >Admin Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputAN"
+                name="admin_name" 
+                required 
+                data-parsley-trigger="keyup"
+                data-parsley-minlength="5"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div>
+              <label for="exampleInputPassword1" class="form-label text-muted"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1" 
+                required 
+                data-parsley-trigger="keyup"
+                data-parsley-minlength="6" 
+                data-parsley-minlength-message = "Password should be atleast 6 characaters long"
+                name="password"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="exampleInputPassword2" class="form-label text-muted"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword2" 
+                data-parsley-trigger="keyup"
+                data-parsley-conf_password=""
+                data-parsley-conf_password-message = "Password didnot match"
+                name="confirm_password"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary mb-3">
+              Register
+              <img
+                width="30px"
+                src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-right-arrow-arrows-dreamstale-lineal-dreamstale.png"
+              />
+            </button>
+          </form>
+          <div class="mb-3">
+            <label class="form-label text-muted">Already registered?</label>
+            <button type="submit" class="btn btn-outline-success"  id="login">
+              Login
+              <img
+                width="30px"
+                src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-right-arrow-arrows-dreamstale-lineal-dreamstale.png"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="_login_image d-none d-lg-block">
+        <img src="/assets/login-girl.png" alt="Login" />
+      </div>
+    </main>
+    <script src="/js/parsley.min.js"></script>
+    <script>
+      var allFieldsValaidated = false;
+      window.parsley.addValidator("email", {
+        requirementType: "string",
+        validateString: function (value) {
+          return String(value)
+            .toLowerCase()
+            .match(
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+            ? true
+            : false;
+        },
+        messages: {
+          en: "Email is in invalid format",
+        },
+      })
+      .addValidator('conf_password',{
+        requirementType:"string",
+        validateString: function(password) {  
+          return $("#exampleInputPassword1")[0].value === password  ; 
+        }
+      })
+      $("#register")
+        .parsley()
+        .on("field:error", () => {
+          allFieldsValaidated = false;
+        })
+        .on("field:success", () => (allFieldsValaidated = true));
+      $("#register").submit(async (event) => {
+        event.preventDefault();
+        if (!allFieldsValaidated) return;
+        const bodyObj = {
+          email: event.target[0].value,
+          school_name: event.target[1].value,
+          admin_name: event.target[2].value,
+          password: event.target[3].value,
+          confirm_password: event.target[4].value,
+        };
+        const registerAPIResponse = await fetch("/register", {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+
+          body: JSON.stringify(bodyObj),
+        }); 
+        const erroMessage =await  await registerAPIResponse.json() ; 
+        alert(erroMessage.msg) ;
+      }); 
+      $('#login').click(()=>{ 
+        console.log('clicked');
+        window.location = '/login'
+      })
+    </script>
+  </body>
+</html>

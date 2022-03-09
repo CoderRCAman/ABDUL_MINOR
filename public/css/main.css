@@ -1,0 +1,137 @@
+.book{
+    height: 88vh;
+    width: 700px;
+} 
+body{
+ height: 100% ;
+ width: 100%;
+}
+.card {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-width:3px ;
+}
+.admission_card{
+    margin-top: 20px;
+}
+.login_container {
+    margin-left : 200px ; 
+}  
+
+._staff_image{
+    height: 100%;
+    width: 50em;
+} 
+.register_card {
+    margin-top: 0.125em;
+    margin-bottom: 0.5em;
+} 
+.underline{
+    border-bottom: 1px solid rgba(94, 92, 92,0.4); 
+    padding-bottom: 6px; 
+    padding-left: 2px;
+} 
+.icon-fit {
+    height: 20px;
+    width: 20px; 
+}
+.dashboard-card{
+    margin-right: 3px;
+} 
+.search-bar {
+    width: 16em; 
+    height: 2em;
+    outline: none;
+    border: none;
+}
+.search-bar-form {
+    border: 2px solid #d4d4d4; 
+    border-radius: 4px ;
+    display: flex;
+    align-items: center;
+}
+.search-bar-form button{
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.select-panel-admission{
+    margin-top: 1.5rem; 
+    border-width: 2px;
+}
+.single_cards{
+    width: 23em;
+}
+/* Parsley  */
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+}
+.view-cards {
+    box-shadow: rgba(105, 75, 237, 0.24) 0px 3px 8px;
+
+}
+.parsley-errors-list {
+  margin: 2px 0 3px;
+  padding: 4px;
+  list-style-type: none;
+  font-size: 0.9em;
+  line-height: 0.9em;
+  opacity: 0;
+  color: #B94A48;
+
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+}   
+/* parsley */
+
+@media only screen and (max-width: 720px) {
+     .book {
+         display: none;
+     } 
+     .single_cards{
+        width: 20em;
+    }
+  
+    .login_card{
+        margin-top: 3em;
+    } 
+    .register_card{
+        margin-top: 3em;
+    }
+    .home_card{
+        margin-top: 5em;
+    }
+     .login_container {
+        margin-left :0 ;
+    } 
+   
+  }
+@media only screen and (max-width:1116px) {
+    ._staff_image{
+        height: 30em;
+        width: 40em;
+    } 
+    ._login_image{
+        height: 30em;
+        width: 40em;
+
+    }
+  
+} 

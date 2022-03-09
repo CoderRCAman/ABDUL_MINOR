@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main
+      class="container mt-3 d-flex flex-column align-items-center align-items-sm-start flex-sm-row justify-content-sm-evenly"
+    >
+      <div class="card mb-5" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Add Standards</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Fields required*</h6>
+          <form id='save'>
+            <div class="mb-3">
+              <label for="standard" class="form-label text-muted fw-bold"
+                >Standard*</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                required
+                id="standard"
+                aria-describedby="textHelp"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Save Standard</button>
+          </form>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Saved Standards</h5>
+          <ul class="list-group" id="standards">
+          </ul>
+        </div>
+      </div>
+    </main>
+    <script src="/js/main.js"></script>
+    <script>
+      var standards = JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(standards)); %>")
+      ); 
+      function renderStandards() {
+        $('#standards').empty()
+        if(standards.length>0) { 
+        $('#standards').append( 
+          standards.map((standard)=> 
+           `
+           <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+             ${ standard.standard }
+              <div class="d-flex">
+                
+                  <a 
+                  href=/standard/delete/${standard._id}
+                  id=${standard._id}
+                  style="cursor: pointer ;border:none"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Delete"
+                >
+                  <!-- delete icon  -->
+
+                  <img
+                    class="icon-fit"
+                    id=${standard._id}
+                    src="https://img.icons8.com/ios/50/000000/delete-trash.png"
+                  />
+                </a>
+                 
+               
+                  <a  
+                   href=/standard/edit/${standard._id}
+                    style="cursor: pointer ;border:none;margin-left:4px"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Edit"
+                    id=${standard._id}
+                  >
+                    <!-- edit icon  -->
+                    <img
+                      class="icon-fit"
+                      src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-edit-interface-kiranshastry-lineal-kiranshastry.png"
+                    />
+                  </a>
+                
+              </div>
+            </li> 
+          `  )
+         
+        )
+      } 
+      }
+      renderStandards();
+      $('#save').submit(async(event)=>{
+        event.preventDefault(); 
+        let standard = $('#standard')[0].value ;
+        if(!standard){
+          alert('Please enter a standard') ;return ;
+        }
+        const bodyObj = {
+          standard : standard 
+        }
+        try {
+          const saveResponse = await fetch('/standard',{
+            method:'POST',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+            "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(bodyObj),
+          })  
+          const responseObj = await saveResponse.json();
+          console.log(responseObj)
+          if(saveResponse.status===200) {
+            standards.push(responseObj.standard); 
+            renderStandards();
+            return ;
+          }
+          alert(responseObj.msg)
+        } catch (error) {
+          alert(error);
+        }
+      })
+    
+    </script>
+  </body>
+</html>

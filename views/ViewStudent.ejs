@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center align-items-center ">
+        <div style="margin-top: 40px;" class="d-flex justify-content-center flex-column align-items-center">
+           <h4> STUDENT DETAILS </h4>  
+           <div class="card " >
+            <div class="card-body single_cards ">
+                <div>
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">Name:</span> <span class="badge bg-primary"><%= student.s_name %></span>
+                 </div>  
+                 <div class="mt-2">
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">Standard:</span> <span class="badge bg-secondary"><%= student.s_standard %></span>
+                 </div> 
+                 <div class="mt-2">
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">Roll:</span> <span class="badge bg-success"><%= student.s_roll %></span>
+                 </div> 
+                 <div class="mt-2">
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">Date of Birth:</span> <span class="badge bg-info"><%= student.date_of_birth %></span>
+                 </div>
+                 <div class="mt-2">
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">School:</span> <span class="badge bg-dark"><%= student.school_name %></span>
+                 </div> 
+                 <div class="mt-2">
+                  <span style="color:rgb(108, 105, 105); font-weight: bold;">Phone:</span> <span class="badge bg-dark"><%= student.s_phone %></span>
+                 </div>
+            </div>
+          </div>
+        </div>
+    </main>
+    <script>
+       
+    </script>
+  </body>
+</html>

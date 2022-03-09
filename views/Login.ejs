@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head'); %>
+  </head>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+
+    <main
+      class="container login_container d-flex flex-row justify-content-center align-items-lg-center"
+    >
+      <div class="card mr-3 login_card">
+        <div class="card-body">
+          <form id="login">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label text-muted fs-5"
+                >Email address</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+              />
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label
+                for="exampleInputPassword1"
+                class="form-label text-muted fs-5"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-outline-success mb-3">
+              Login
+              <img
+                width="30px"
+                src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-right-arrow-arrows-dreamstale-lineal-dreamstale.png"
+              />
+            </button>
+          </form>
+          <div class="mb-3">
+            <label class="form-label text-muted fs-5"
+              >Don't have an account?</label
+            >
+            <button type="submit" class="btn btn-outline-primary" id="register">
+              Register
+              <img
+                width="30px"
+                src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-right-arrow-arrows-dreamstale-lineal-dreamstale.png"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="_login_image d-none d-lg-block">
+        <img src="/assets/login-girl.png" alt="Login" />
+      </div>
+    </main>
+    <script>
+      $("#register").click(() => {
+        window.location = "/register";
+      });
+      $("#login").submit(async(event) => {
+        event.preventDefault();
+        const bodyObj = {
+          email: event.target[0].value,
+          password: event.target[1].value,
+        };
+        const loginResponse = await fetch("/login", {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+
+          body: JSON.stringify(bodyObj),
+        });
+        const loginStatus = loginResponse.status;
+        const loginMsg = await loginResponse.json();
+        if (loginStatus === 200) {
+          // successful login
+          const redirectUrl = loginMsg.redirectUrl ? loginMsg.redirectUrl : "/";
+          window.location.replace(redirectUrl);
+        }
+        alert(loginMsg.msg);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+    <body">
+        <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+        <span class="badge rounded-pill bg-success fs-5 text-dark" style="margin-left: 10px;"><%= school_name %></span>
+            <div class="container"> 
+                <main class="d-flex flex-column-reverse">
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-evenly">
+                        <div class="card dashboard-card">
+                            <div class="card-header">
+                                Manage
+                            </div>
+                            <div class="card-body ">
+                                <h5 class="card-title">Manage Staffs</h5>
+                                <p class="card-text">Insert,Update or delete everything in full control</p>
+                                <a href="/staff/panel" class="btn btn-primary">Take Me</a>
+                            </div>
+                        </div>
+                        <div class="card dashboard-card">
+                            <div class="card-header">
+                                Manage
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Manage Students</h5>
+                                <p class="card-text">Insert,Update or delete everything in full control</p>
+                                <a href="/admission/panel" class="btn btn-primary">Take Me</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                Manage
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Manage Standards</h5>
+                                <p class="card-text">Insert,Update or delete everything in full control</p>
+                                <a href="/standard" class="btn btn-primary">Take Me</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div style="width: 700px;">
+                            <canvas id="myChart" width="100" height="50"></canvas>
+                        </div>
+                    </div>
+                </main>
+
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"
+                integrity="sha256-ErZ09KkZnzjpqcane4SCyyHsKAXMvID9/xwbl/Aq1pc=" crossorigin="anonymous"></script>
+            <script>
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const counts =  JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(counts)); %>"));
+                function random_rgba() {
+                    var o = Math.round, r = Math.random, s = 255;
+                    let rr = o(r() * s)
+                    let gg = o(r() * s)
+                    let bb = o(r() * s)
+                    return {
+                        first: 'rgba(' + rr + ',' + gg + ',' + bb + ',' + '0.2'+ ')',
+                        second: 'rgba(' + rr + ',' + gg + ',' + bb + ',' + '1' + ')'
+                    }
+                }
+                const backgroundColor = []
+                const borderColor = []
+                for (let i = 0; i < counts.length; ++i) {
+                    let color = random_rgba() ;
+                    backgroundColor.push(color.first) ;
+                    borderColor.push(color.second) ;
+                }
+                const labels = [] , data =[] ;  
+                console.log(counts);
+                counts.forEach(count => {
+                    labels.push(count.standard) 
+                    data.push(count.count?count.count : 0)
+                });
+                console.table(backgroundColor)
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels:labels,
+                        datasets: [{
+                            label: '#Number of Students',
+                            data: data,
+                            backgroundColor: backgroundColor,
+                            borderColor:borderColor,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+
+            </body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head'); %>
+  <body>
+    <%- include('partials/navbar',{loggedIn:loggedIn}); %>
+    <main class="container d-flex justify-content-center ">
+        <div style="margin-top: 40px;">
+           <h4> UPDATE SELECTED STANDARD <span class="badge bg-info text-dark"><%= standard %></span></h4>  
+           <form id="edit" class="d-flex flex-column">
+               <input type="text" id="updated-standard" class="form-control"style='border-width:2px' value=<%= standard %> />
+               <button class="btn btn-success mt-2">UPDATE</button>
+           </form>
+        </div>
+    </main>
+    <script>
+        async function editStandard(updatedValue){ 
+            if(!updatedValue) {
+                alert('Please enter corret updated value') ;
+                return ;
+            }
+            const id = JSON.parse(decodeURI("<%- encodeURI(JSON.stringify(id)); %>"));  
+            const bodyObj = {
+                standard : updatedValue
+            }
+            try {
+                const editResponse = await fetch(`/standard/edit/${id}`,{
+            method:'PUT',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+            "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body : JSON.stringify(bodyObj)
+          })  
+          const responseObj = await editResponse.json();
+          console.log(responseObj)
+          if(editResponse.status===200) {
+            alert('Updated Successfully')
+            window.location = '/standard'
+            return ;
+          } 
+             alert(responseObj.msg);
+         } catch (error) {
+                alert(error);
+         }
+        } 
+        $('#edit').submit(async event=>{ 
+            event.preventDefault();
+            const updatedValue = $('#updated-standard')[0].value; 
+            if(!updatedValue) {
+                alert('Please enter corret updated value') ;
+                return ;
+            }
+            try {
+                await editStandard(updatedValue) ;
+            } catch (error) {
+                alert(error);
+            }
+        })
+    </script>
+  </body>
+</html>

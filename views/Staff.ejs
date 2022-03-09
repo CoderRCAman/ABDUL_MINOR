@@ -3,7 +3,7 @@
   <head>
     <%- include('partials/head'); %>
   </head>
-  <body>
+  <body class="light_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <p class="h2 text-center">
       <span class="text-muted">Add </span>Staff Details
@@ -11,14 +11,14 @@
     <main
       class="container d-flex flex-row justify-content-center align-items-lg-center"
     >
-      <div class="d-none d-lg-block">
+      <div class="d-none d-lg-block" style="margin-right: 10px;">
         <img src="/assets/staff.png" class="_staff_image" alt="Staff" />
       </div>
       <div class="card mr-3">
         <div class="card-body">
           <form id="staff">
             <div>
-              <label for="exampleInputName" class="form-label text-muted fs-5"
+              <label for="exampleInputName" class="form-label text-muted "
                 >Staff Name</label
               >
               <input
@@ -31,7 +31,7 @@
               />
             </div>
             <div>
-              <label for="exampleInputEmail1" class="form-label text-muted fs-5"
+              <label for="exampleInputEmail1" class="form-label text-muted "
                 >Staff Email</label
               >
               <input
@@ -47,7 +47,7 @@
               </div>
             </div>
             <div>
-              <label for="exampleInputSchool" class="form-label text-muted fs-5"
+              <label for="exampleInputSchool" class="form-label text-muted "
                 >School Name</label
               >
               <input
@@ -60,7 +60,7 @@
               />
             </div>
             <div>
-              <label for="exampleInputRole" class="form-label text-muted fs-5"
+              <label for="exampleInputRole" class="form-label text-muted "
                 >Staff Role</label
               >
               <input
@@ -72,7 +72,7 @@
               />
             </div>
             <div>
-              <label for="exampleInputDes" class="form-label text-muted fs-5"
+              <label for="exampleInputDes" class="form-label text-muted "
                 >Staff Description</label
               >
               <input
@@ -85,7 +85,7 @@
               />
             </div>
             <div>
-              <label for="exampleInputPh" class="form-label text-muted fs-5"
+              <label for="exampleInputPh" class="form-label text-muted "
                 >Staff Phone</label
               >
               <input
@@ -111,6 +111,9 @@
     </main>
     <script src="/js/parsley.min.js"></script>
     <script>
+      const loggedDetails = JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(loggedIn)); %>")
+      );  
       var allFieldsValaidated = false;
       window.parsley.addValidator("email", {
         requirementType: "string",
@@ -140,7 +143,8 @@
           school_name : event.target[2].value ,
           staff_role : event.target[3].value ,
           staff_description : event.target[4].value,
-          staff_phone : event.target[5].value
+          staff_phone : event.target[5].value,
+          u_id : loggedDetails.user_id 
         }
         const staffResponse = await fetch('/staff',{
           method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -157,7 +161,7 @@
         const responseMsg = await staffResponse.json();
         if(status===201) {
           alert("Successfully registered a staff") ;
-          //❗ to do redirect to staff dashboards
+          window.location = '/staff/panel'
           return ; 
         }
         alert(responseMsg.msg) ;

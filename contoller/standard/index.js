@@ -4,7 +4,7 @@ const Standard = require("../../model/standard");
 async function getStandardPage(req, res) {
   //✅ comleted
   const loggedInDetails = getLoggedInDetails(req); 
-  const availableStandard = await Standard.find() ;
+  const availableStandard = await Standard.find({u_id:loggedInDetails.user_id}) ;
   res.render("Standard", {
     loggedIn: loggedInDetails ? loggedInDetails : false,
     standards:availableStandard
@@ -49,7 +49,7 @@ async function addStandard(req, res) {
     if (!standard) {
       return res.status(400).json({ msg: "Cannot add empty standard" });
     } 
-    const standardExist = await Standard.findOne({standard:standard});
+    const standardExist = await Standard.findOne({standard:standard,u_id:req.body.u_id});
     if(standardExist) return res.status(400).json({msg:'Standard already exist'})
     const newStandard = new Standard(req.body);
     if (!newStandard) {

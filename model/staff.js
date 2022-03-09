@@ -4,6 +4,10 @@ const staffSchema = new mongoose.Schema({
         type: String, 
         required:true
     }, 
+    u_id : {
+        type : String ,
+        required:true
+    },
     staff_email : {
         type: String, 
         required:true,

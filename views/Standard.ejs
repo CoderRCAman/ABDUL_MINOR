@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include('partials/head'); %>
-  <body>
+  <body class="admission_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <main
       class="container mt-3 d-flex flex-column align-items-center align-items-sm-start flex-sm-row justify-content-sm-evenly"
@@ -39,7 +39,10 @@
     <script>
       var standards = JSON.parse(
         decodeURI("<%- encodeURI(JSON.stringify(standards)); %>")
-      ); 
+      );  
+      const loggedDetails = JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(loggedIn)); %>")
+      );  
       function renderStandards() {
         $('#standards').empty()
         if(standards.length>0) { 
@@ -100,7 +103,8 @@
           alert('Please enter a standard') ;return ;
         }
         const bodyObj = {
-          standard : standard 
+          standard : standard ,
+          u_id : loggedDetails.user_id
         }
         try {
           const saveResponse = await fetch('/standard',{

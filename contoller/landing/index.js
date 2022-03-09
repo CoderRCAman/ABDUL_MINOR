@@ -4,7 +4,7 @@ const Student = require('../../model/student') ;
 async function landing(req, res) {
   // ✅ Completed
   const loggedInDetails = getLoggedInDetails(req); 
-  const allStandards = await Standard.find() ; 
+  const allStandards = await Standard.find({u_id:loggedInDetails.user_id}) ; 
   const studentCount_standard = [] ;
   for(let i=0;i<allStandards.length ;++i) { 
     const standard = allStandards[i].standard

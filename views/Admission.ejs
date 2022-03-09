@@ -2,7 +2,7 @@
 <html lang="en">
 <%- include('partials/head'); %>
 
-    <body>
+    <body class="admission_bg">
         <%- include('partials/navbar',{loggedIn:loggedIn}); %>
             <div class="_admission_container"></div>
 
@@ -78,7 +78,10 @@
                 crossorigin="anonymous" referrerpolicy="no-referrer">
                 </script>
             <script src="js/parsley.min.js"></script>
-            <script>
+            <script> 
+                const loggedDetails= JSON.parse(
+        decodeURI("<%- encodeURI(JSON.stringify(loggedIn)); %>")
+      ); 
                 var allFieldValidated = false;
                 window.parsley.addValidator('select',{
                     requirementType: "string",
@@ -122,7 +125,8 @@
                         date_of_birth: event.target[3].value,
                         s_phone: event.target[4].value,
                         s_address: event.target[5].value,
-                        s_standard: event.target[6].value
+                        s_standard: event.target[6].value,
+                        u_id : loggedDetails.user_id
                     }
                    
                     const admissionResponse = await fetch('/admission', {
@@ -143,7 +147,7 @@
                     if(admissionStatus ==201) {
                         //succcess
                         alert("Successfully admitted a student") ;
-                        window.location = '/'
+                        window.location = '/admission/panel'
                         return ; 
                     }
                     alert(admissionMessage.msg) ;

@@ -147,7 +147,7 @@
           school_name : event.target[2].value ,
           staff_role : event.target[3].value ,
           staff_description : event.target[4].value,
-          staff_phone : event.target[5].value
+          staff_phone : event.target[5].value,
         }
        try {
         const staffResponse = await fetch(`/staff/edit/${staff._id}`,{

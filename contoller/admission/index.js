@@ -5,7 +5,7 @@ const Standard = require("../../model/standard") ;
 async function getAdmissionPage(req, res) {
   // ✅ Completed
   const loggedInDetails = getLoggedInDetails(req); 
-  const standards = await Standard.find() ;
+  const standards = await Standard.find({u_id:loggedInDetails.user_id}) ;
   res.render("Admission", {
     loggedIn: loggedInDetails ? loggedInDetails : false,
     standards : standards
@@ -14,8 +14,8 @@ async function getAdmissionPage(req, res) {
 async function getAdmissionPanel(req, res) {
   const loggedInDetails = getLoggedInDetails(req);
   try {
-    const studentList = await paginatedResults({ page: 1, limit: 10 }, Student);  
-    const standards = await Standard.find() ;
+    const studentList = await paginatedResults({ u_id:loggedInDetails.user_id }, Student);  
+    const standards = await Standard.find({u_id:loggedInDetails.user_id}) ;
     res.render("AdmissionPanel", {
       loggedIn: loggedInDetails ? loggedInDetails : false,
       student_list: studentList,
@@ -107,12 +107,11 @@ async function deleteStudent (req,res) {
 }
 
 async function getStudentByStandard (req,res) {
-  let {standard,page,limit} = req.query ;  
+  let {standard} = req.query ;  
   if(!standard) return res.status(400).json({msg:'NO STANDARD WAS SELECTED'}); 
-  page = page?parseInt(page):1 ;
-  limit = limit?parseInt(limit):10 ; 
+  const loggedInDetails = getLoggedInDetails(req) ;
   try {
-    const studentList = await paginatedResults({page:page,limit:limit,standard:standard},Student) ;
+    const studentList = await paginatedResults({standard:standard,u_id:loggedInDetails.user_id},Student) ;
     return res.status(200).json(studentList);
   } catch (error) {
     return res.status(500).json({msg:'Internal server error'});

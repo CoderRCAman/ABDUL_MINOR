@@ -61,6 +61,32 @@ body{
 .single_cards{
     width: 23em;
 }
+.profile_bg {  
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,95,104,1) 0%, rgba(15,156,168,0.7) 90% );
+}
+.dashboard_bg {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient( 138deg,  rgba(32,201,255,0.7) 36.7%, rgba(0,8,187,1) 84.4%, rgba(255,255,255,1) 119.7% );
+}
+
+.admission_bg {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient( 358.7deg,  rgba(42,136,157,1) 1.7%, rgba(122,197,214,1) 51.1%, rgba(211,232,242,1) 95.5% );
+}
+.landing_bg {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient( 109.6deg,  rgba(220,196,252,1) 11.2%, rgba(150,199,253,1) 100.2% );
+}
+.light_bg {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient( 109.6deg,  rgba(245,239,249,1) 30.1%, rgba(207,211,236,1) 100.2% );
+}
 /* Parsley  */
 input.parsley-success,
 select.parsley-success,

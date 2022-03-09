@@ -12,6 +12,7 @@ const loginRoutes = require("./routes/auth");
 const admissionRoutes = require("./routes/admission");
 const staffRoutes = require("./routes/staff");
 const standardRoutes = require("./routes/standard");
+const profileRoutes = require('./routes/profile');
 const morgan = require("morgan");
 //templating engine
 app.set("view engine", "ejs");
@@ -34,7 +35,8 @@ app.use(
   loginRoutes,
   admissionRoutes,
   staffRoutes,
-  standardRoutes
+  standardRoutes,
+  profileRoutes
 );
 //server initialise 
 app.listen(PORT, () => {

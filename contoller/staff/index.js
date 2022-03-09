@@ -8,7 +8,7 @@ function getStaffPge(req, res) {
 }
 async function getStaffPanel(req, res) {
   const loggedInDetails = getLoggedInDetails(req);
-  const staffList = await Staff.find();
+  const staffList = await Staff.find({u_id : loggedInDetails.user_id});
   return res.render("StaffPanel", {
     loggedIn: loggedInDetails ? loggedInDetails : false,
     staff_list: staffList,
@@ -72,13 +72,16 @@ async function updateStaff (req,res){
 async function registerStaff(req, res) {
   try {
     const body = req.body;
-    const ifStaffExist = await Staff.findOne({ email: body.staff_email });
+    const loggedDetails = getLoggedInDetails(req) ; 
+    console.log(body);
+    const ifStaffExist = await Staff.findOne({ staff_email: body.staff_email,u_id:loggedDetails.user_id }); 
+    console.log(ifStaffExist);
     if (ifStaffExist)
       return res
         .status(400)
         .json({ msg: `Same email(${body.staff_email}) is already registered` });
     const newStaff = new Staff(body);
-    newStaff.save();
+    await newStaff.save();
     return res.status(201).json({ msg: "Successfully registered a new staff" });
   } catch (error) {
     return res

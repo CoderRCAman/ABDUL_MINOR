@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head'); %>
-    <body">
+    <body class="dashboard_bg">
         <%- include('partials/navbar',{loggedIn:loggedIn}); %>
-        <span class="badge rounded-pill bg-success fs-5 text-dark" style="margin-left: 10px;"><%= school_name %></span>
-            <div class="container"> 
+        <span class="badge rounded-pill bg-success fs-5 text-dark mt-3" style="margin-left: 10px;"><%= school_name %></span>
+            <div class="container" style="margin-bottom: 5px;"> 
                 <main class="d-flex flex-column-reverse">
                     <div class="d-flex flex-column-reverse flex-sm-row justify-content-evenly">
                         <div class="card dashboard-card">

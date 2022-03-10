@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include('partials/head'); %>
-  <body>
+  <body class="panel_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <main class="container d-flex justify-content-center ">
         <div style="margin-top: 40px;">
            <h4 class="text-center"> UPDATE SELECTED STUDENT </h4>  
            <form id="edit" class="d-flex flex-column">
-            <div class="d-flex flex-column  justify-content-sm-evenly flex-sm-row">
-                <div class="card mr-3 mb-2" style="width: 20rem;">
+            <div class="d-flex flex-column flex-sm-row justify-content-sm-evenly ">
+                <div class="card mr-4 mb-2 " style="width: 20rem; margin-right:20px">
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
@@ -40,7 +40,7 @@
 
                     </div>
                 </div>
-                <div class="card ml-3   " style="height: 20em; width: 15em;">
+                <div class="card ml-md-3" style="height: 20em; width: 20rem;">
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="exampleInputPhone" class="form-label text-muted fw-bold">Student
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start justify-content-md-center " ">
+            <div class="d-flex justify-content-start justify-content-md-center ">
             <button type=" submit" class="btn btn-primary" style="width: 10em;margin-top: 0.5em;">
                 UPDATE</button>
             </div>

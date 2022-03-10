@@ -2,7 +2,7 @@
 <html lang="en">
   <%-include('partials/head'); %>
 
-  <body>
+  <body class="panel_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <main
       class="container d-flex align-items-center flex-column-reverse flex-md-row justify-content-evenly"
@@ -21,7 +21,7 @@
       </div>
       <div>
         <!-- Global search  -->
-        <form id="search" class="search-bar-form">
+        <form  style="background-color: #fff; border-radius: 4px; border:2px solid rgb(170, 162, 162)  " id="search" class="search-bar-form">
           <button type="submit">
             <img
               src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png"
@@ -68,7 +68,11 @@
           '<h5 style="color:red" > No Avaialable Student </h5>'
         )
       }
-      function renderStudents () { 
+      function renderStudents () {  
+        if(students.length ===0) {
+          renderNoStudents(); 
+          return ;
+        }
         $("#student_list").empty();
         students.forEach((student) => {
         $("#student_list").append(

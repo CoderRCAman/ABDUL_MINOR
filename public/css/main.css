@@ -1,111 +1,144 @@
-.book{
-    height: 88vh;
-    width: 700px;
-} 
-body{
- height: 100% ;
- width: 100%;
+.book {
+  height: 88vh;
+  width: 700px;
+}
+body {
+  height: 100%;
+  width: 100%;
 }
 .card {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-width:3px ;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-width: 3px;
 }
-.admission_card{
-    margin-top: 20px;
+.admission_card {
+  margin-top: 20px;
 }
 .login_container {
-    margin-left : 200px ; 
-}  
-
-._staff_image{
-    height: 100%;
-    width: 50em;
-} 
-.register_card {
-    margin-top: 0.125em;
-    margin-bottom: 0.5em;
-} 
-.underline{
-    border-bottom: 1px solid rgba(94, 92, 92,0.4); 
-    padding-bottom: 6px; 
-    padding-left: 2px;
-} 
-.icon-fit {
-    height: 20px;
-    width: 20px; 
+  margin-left: 200px;
 }
-.dashboard-card{
-    margin-right: 3px;
-} 
+
+._staff_image {
+  height: 100%;
+  width: 50em;
+}
+.register_card {
+  margin-top: 0.125em;
+  margin-bottom: 0.5em;
+}
+.underline {
+  border-bottom: 1px solid rgba(94, 92, 92, 0.4);
+  padding-bottom: 6px;
+  padding-left: 2px;
+}
+.icon-fit {
+  height: 20px;
+  width: 20px;
+}
+.dashboard-card {
+  margin-right: 3px;
+}
 .search-bar {
-    width: 16em; 
-    height: 2em;
-    outline: none;
-    border: none;
+  width: 16em;
+  height: 2em;
+  outline: none;
+  border: none;
 }
 .search-bar-form {
-    border: 2px solid #d4d4d4; 
-    border-radius: 4px ;
-    display: flex;
-    align-items: center;
+  border: 2px solid #d4d4d4;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
 }
-.search-bar-form button{
-    border: none;
-    padding: 0;
-    margin: 0;
+.search-bar-form button {
+  border: none;
+  padding: 0;
+  margin: 0;
 }
-.select-panel-admission{
-    margin-top: 1.5rem; 
-    border-width: 2px;
+.select-panel-admission {
+  margin-top: 1.5rem;
+  border-width: 2px;
 }
-.single_cards{
-    width: 23em;
+.single_cards {
+  width: 23em;
 }
-.profile_bg {  
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,95,104,1) 0%, rgba(15,156,168,0.7) 90% );
+.profile_bg {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    rgba(0, 95, 104, 1) 0%,
+    rgba(15, 156, 168, 0.7) 90%
+  );
 }
 .dashboard_bg {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient( 138deg,  rgba(32,201,255,0.7) 36.7%, rgba(0,8,187,1) 84.4%, rgba(255,255,255,1) 119.7% );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+    138deg,
+    rgba(32, 201, 255, 0.7) 36.7%,
+    rgba(0, 8, 187, 1) 84.4%,
+    rgba(255, 255, 255, 1) 119.7%
+  );
 }
 
 .admission_bg {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient( 358.7deg,  rgba(42,136,157,1) 1.7%, rgba(122,197,214,1) 51.1%, rgba(211,232,242,1) 95.5% );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+    358.7deg,
+    rgba(42, 136, 157, 1) 1.7%,
+    rgba(122, 197, 214, 1) 51.1%,
+    rgba(211, 232, 242, 1) 95.5%
+  );
 }
 .landing_bg {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient( 109.6deg,  rgba(220,196,252,1) 11.2%, rgba(150,199,253,1) 100.2% );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+    109.6deg,
+    rgba(220, 196, 252, 1) 11.2%,
+    rgba(150, 199, 253, 1) 100.2%
+  );
 }
 .light_bg {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient( 109.6deg,  rgba(245,239,249,1) 30.1%, rgba(207,211,236,1) 100.2% );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+    109.6deg,
+    rgba(245, 239, 249, 1) 30.1%,
+    rgba(207, 211, 236, 1) 100.2%
+  );
+}
+.panel_bg {
+  --gradient-start: #6cacff;
+
+  --gradient-end: #8debff;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-image: linear-gradient(
+    33deg,
+    var(--gradient-start),
+    var(--gradient-end)
+  );
 }
 /* Parsley  */
 input.parsley-success,
 select.parsley-success,
 textarea.parsley-success {
   color: #468847;
-  background-color: #DFF0D8;
-  border: 1px solid #D6E9C6;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
 }
 
 input.parsley-error,
 select.parsley-error,
 textarea.parsley-error {
-  color: #B94A48;
-  background-color: #F2DEDE;
-  border: 1px solid #EED3D7;
+  color: #b94a48;
+  background-color: #f2dede;
+  border: 1px solid #eed3d7;
 }
 .view-cards {
-    box-shadow: rgba(105, 75, 237, 0.24) 0px 3px 8px;
-
+  box-shadow: rgba(105, 75, 237, 0.24) 0px 3px 8px;
 }
 .parsley-errors-list {
   margin: 2px 0 3px;
@@ -114,50 +147,47 @@ textarea.parsley-error {
   font-size: 0.9em;
   line-height: 0.9em;
   opacity: 0;
-  color: #B94A48;
+  color: #b94a48;
 
-  transition: all .3s ease-in;
-  -o-transition: all .3s ease-in;
-  -moz-transition: all .3s ease-in;
-  -webkit-transition: all .3s ease-in;
+  transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -webkit-transition: all 0.3s ease-in;
 }
 
 .parsley-errors-list.filled {
   opacity: 1;
-}   
+}
 /* parsley */
 
 @media only screen and (max-width: 720px) {
-     .book {
-         display: none;
-     } 
-     .single_cards{
-        width: 20em;
-    }
-  
-    .login_card{
-        margin-top: 3em;
-    } 
-    .register_card{
-        margin-top: 3em;
-    }
-    .home_card{
-        margin-top: 5em;
-    }
-     .login_container {
-        margin-left :0 ;
-    } 
-   
+  .book {
+    display: none;
   }
-@media only screen and (max-width:1116px) {
-    ._staff_image{
-        height: 30em;
-        width: 40em;
-    } 
-    ._login_image{
-        height: 30em;
-        width: 40em;
+  .single_cards {
+    width: 20em;
+  }
 
-    }
-  
-} 
+  .login_card {
+    margin-top: 3em;
+  }
+  .register_card {
+    margin-top: 3em;
+  }
+  .home_card {
+    margin-top: 5em;
+  }
+  .login_container {
+    margin-left: 0;
+  }
+}
+@media only screen and (max-width: 1116px) {
+  ._staff_image {
+    height: 30em;
+    width: 40em;
+  }
+  ._login_image {
+    height: 30em;
+    width: 40em;
+  }
+}

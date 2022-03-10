@@ -2,32 +2,32 @@
 <html lang="en">
   <%-include('partials/head'); %>
 
-  <body>
+  <body class="panel_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <main
       class="container d-flex align-items-center flex-column-reverse flex-md-row justify-content-evenly"
       style="margin-top: 20px"
     >
       <div
-        class="card mt-5 mt-md-0"
+        class="card mt-5 mt-md-0 "
         style="width: 25rem; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px"
       >
-        <div class="card-body">
+        <div class="card-body" >
           <h5 class="card-title">Manage Staffs</h5>
           <div class="list-group"  style="max-height:50vh ;overflow-y:scroll" id="staff_list">
             <!-- Student List Goes here  -->
           </div>
         </div>
       </div>
-      <div>
+      <div >
         <!-- Global search  -->
-        <form id="search" class="search-bar-form">
+        <form style="background-color: #fff; border-radius: 4px; border:2px solid rgb(170, 162, 162)  " id="search" class="search-bar-form">
           <button type="submit">
             <img
               src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png"
               style="
-                width: 26px;
-                height: 26px;
+                width: 100%;
+                height: 100%;
                 margin-left: 3px;
                 margin-right: 2px;
               "
@@ -38,23 +38,27 @@
             class="search-bar"
             placeholder="Search staff"
           />
-        </form>
-       
+        </form> 
+        <button class="btn btn-outline-primary mt-3" onclick="loadAllStaffs()">ALL STAFF</button>
       </div>
     </main>
     <script>
-      const staffList = JSON.parse(
+      var staffList = JSON.parse(
         decodeURI("<%- encodeURI(JSON.stringify(staff_list)); %>")
       ); 
       console.log(staffList);
       function renderNoStaffs(){
         $("#staff_list").empty();
         $("#staff_list").append(
-          '<h5 style="color:red" > No Avaialable Student </h5>'
+          '<h5 style="color:red" > No Avaialable Staffs </h5>'
         )
       }
-      function renderStudents () { 
-        $("#staff_list").empty();
+      function renderStaffs () { 
+        $("#staff_list").empty(); 
+        if(staffList.length ===0) { 
+          renderNoStaffs()
+          return ;
+        }
         staffList.forEach((staff) => {
         $("#staff_list").append(
         `<div class="list-group-item list-group-item-action fw-bold d-flex justify-content-between">
@@ -101,17 +105,17 @@
         );
       });
     }
-    renderStudents();
+    renderStaffs();
      
       $('#search').submit(async event=>{ 
         event.preventDefault(); 
         const searchField = event.target[1].value ;
         if(!searchField) { 
-          alert("Please specify a roll number")
+          alert("Please specify a staff name")
           return ; 
         } 
         try {
-          const searchResult = await fetch(`/student?roll_no=${searchField}`,{
+          const searchResult = await fetch(`/staff/search?name=${searchField}`,{
             method : 'GET',
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -122,17 +126,39 @@
         }) 
          if(searchResult.status ===200) {
           const resultObj = await searchResult.json();
-          if(resultObj) {
-            staffList = [] ;
-            staffList.push(resultObj) ; 
-            renderStudents();
+          if(resultObj.length>0) {
+            staffList = resultObj;
+            renderStaffs();
           }
-          else renderNoStudents();
+          else renderNoStaffs();
          }  
         } catch (error) {
           alert(error) ;
         }
-      })
+      }) 
+      async function loadAllStaffs(){
+        try {
+          const searchResult = await fetch('/staff/search/all',{
+            method : 'GET',
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+             headers: {
+            "Content-Type": "application/json",
+          }
+        }) 
+         if(searchResult.status ===200) {
+          const resultObj = await searchResult.json();
+          if(resultObj.length>0) {
+            staffList = resultObj;
+            renderStaffs();
+          }
+          else renderNoStaffs();
+         }  
+        } catch (error) {
+          alert(error) ;
+        }
+      }
     </script>
     <script src="/js/main.js"></script>
   </body>

@@ -3,7 +3,7 @@
   <head>
     <%- include('partials/head'); %>
   </head>
-  <body>
+  <body class="light_bg">
     <%- include('partials/navbar',{loggedIn:loggedIn}); %>
     <p class="h2 text-center">
       <span class="text-muted">EDIT </span>Staff Details
@@ -11,10 +11,10 @@
     <main
       class="container d-flex flex-row justify-content-center align-items-lg-center"
     >
-      <div class="d-none d-lg-block">
+      <div class="d-none d-lg-block" style="margin-right: 4px;">
         <img src="/assets/staff.png" class="_staff_image" alt="Staff" />
       </div>
-      <div class="card mr-3">
+      <div class="card  mb-3 ">
         <div class="card-body">
           <form id="staff">
             <div>
